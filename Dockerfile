@@ -1,10 +1,17 @@
-FROM golang:1.22.2-alpine
-
-LABEL org.opencontainers.image.authors="sf-dlh" \
-      org.opencontainers.image.version="0.1"	
+FROM golang:1.22.2-alpine AS go
 
 WORKDIR /main
 
 COPY . .
 
-ENTRYPOINT ["go", "run", "main.go"]
+RUN go build -o watchman ./main.go
+
+FROM scratch
+
+LABEL  org.opencontainers.image.author="sf-dlh" \
+	org.opencontainers.image.version="0.2"
+
+
+COPY --from=go /main/watchman /bin/watchman
+
+ENTRYPOINT ["watchman"]
