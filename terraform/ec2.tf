@@ -33,9 +33,9 @@ resource "aws_instance" "watchman" {
         ./aws/install
 
         aws ecr get-login-password | docker login --username AWS --password-stdin ${data.aws_caller_identity.me.account_id}.dkr.ecr.${var.aws_region}.amazonaws.com
-        docker pull ${aws_ecr_repository.watchman_repo.repository_url}:0.4
+        docker pull ${aws_ecr_repository.watchman_repo.repository_url}:0.5
 
-        docker run -e AWS_REGION=${var.aws_region} -d --name watchman --restart always ${aws_ecr_repository.watchman_repo.repository_url}:0.4
+        docker run -e AWS_REGION=${var.aws_region} -d --name watchman --restart always ${aws_ecr_repository.watchman_repo.repository_url}:0.5
         EOF
 
   tags = {
