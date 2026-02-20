@@ -19,7 +19,7 @@ resource "aws_ecr_repository" "watchman_repo" {
 resource "aws_ecr_lifecycle_policy" "watchman_repo_lifecycle" {
   repository = aws_ecr_repository.watchman_repo.name
 
-  policy = data.aws_ecr_lifecycle_policy_document.old_images_remover
+  policy = data.aws_ecr_lifecycle_policy_document.old_images_remover.json
 
 }
 
@@ -31,7 +31,7 @@ data "aws_ecr_lifecycle_policy_document" "old_images_remover" {
     description = "expiring old images"
 
     selection {
-      // can do any
+      // can do any, probably better, but want to try out tag_prefix_list and properly tagging stuff
       tag_status      = "tagged"
       tag_prefix_list = ["watchman"]
       count_type      = "imageCountMoreThan"
