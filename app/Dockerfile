@@ -11,7 +11,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o watchman ./main.go
 FROM scratch
 
 LABEL  org.opencontainers.image.author="sf-dlh" \
-	org.opencontainers.image.version="0.3"
+	org.opencontainers.image.version="0.5"
 
 COPY --from=go /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 

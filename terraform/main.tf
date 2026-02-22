@@ -21,7 +21,7 @@ resource "aws_subnet" "watchman_vpc_subnet" {
     map_public_ip_on_launch = true                  # pour ec2 later
 
     tags = {
-        Name = "Watchman Subnet 1"
+        Name = "watchman_subnet_1"
     }
 
     depends_on = [ aws_internet_gateway.watchman_vpc_gateway ]
