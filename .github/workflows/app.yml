@@ -1,0 +1,32 @@
+name: app-workflow
+run-name: "Ran by ${{github.actor}} on ${{github.event_name}} to ${{github.ref_name}}, testing app building "
+on:
+    push:
+        paths:
+            - "app/**"
+jobs:
+    go-app-check:
+        runs-on: ubuntu-24.04
+
+        defaults:
+            run:
+                working-directory: ./app
+
+        env:
+            AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
+            AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+            TF_VAR_ip: ${{secrets.MY_IP}}
+            AWS_REGION: ${{vars.AWS_REGION}}        
+        steps:
+            - name: "Clone /app"
+              uses: actions/checkout@v6.0.2
+
+            - name: "Setup golang"
+              uses: actions/setup-go@v6
+              with:
+                 go-version: '1.26.0'
+
+            - run: CGO_ENABLED=0 GOOS=linux go build -v -o watchman ./main.go
+
+
+
